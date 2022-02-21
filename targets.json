@@ -1,0 +1,14 @@
+{
+  "$schema": "./targets.spec.json",
+  "typescript": {
+    "folder": "./typescript",
+    "setup": "npm install",
+    "build": "npm run build",
+    "test": "npm run test"
+  },
+  "rust": {
+    "folder": "./rust",
+    "build": "cargo build",
+    "test": "cargo test"
+  }
+}
