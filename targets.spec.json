@@ -4,9 +4,9 @@
     "target": {
       "type": "object",
       "description": "A platform target library.",
-      "required": ["folder", "build", "test"],
+      "required": ["location", "build", "test"],
       "properties": {
-        "folder": {
+        "location": {
           "type": "string",
           "description": "The location of the target folder relative to the root of the repository."
         },
