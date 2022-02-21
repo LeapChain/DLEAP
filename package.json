@@ -1,0 +1,8 @@
+{
+  "private": "true",
+  "name": "dtnb-buildtools",
+  "scripts": {
+    "build": "node build %npm_config_targets%",
+    "test": "node test %npm_config_targets%"
+  }
+}
