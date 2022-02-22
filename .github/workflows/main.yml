@@ -3,7 +3,6 @@ on: [push]
 jobs:
   javascript:
     name: Build, lint, and test on Node ${{ matrix.node }} and ${{ matrix.os }}
-    if: contains(steps.file_changes.outputs.files , '"javascript/')
 
     runs-on: ${{ matrix.os }}
     defaults:
@@ -17,6 +16,11 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+
+      - uses: marceloprado/has-changed-path@v1
+        id: changed-front
+        with:
+          paths: javascript
 
       - name: Use Node ${{ matrix.node }}
         uses: actions/setup-node@v1
@@ -37,7 +41,6 @@ jobs:
 
   rust:
     name: Build and test on Rust ${{ matrix.toolchain }} and ${{ matrix.os }}
-    if: contains(steps.file_changes.outputs.files , '"rust/')
 
     runs-on: ${{ matrix.os }}
     defaults:
@@ -51,6 +54,11 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+
+      - uses: marceloprado/has-changed-path@v1
+        id: changed-front
+        with:
+          paths: rust
 
       - uses: actions-rs/toolchain@v1
         with:
