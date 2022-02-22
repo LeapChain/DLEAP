@@ -3,6 +3,7 @@ on: [push]
 jobs:
   javascript:
     name: Build, lint, and test on Node ${{ matrix.node }} and ${{ matrix.os }}
+    if: contains(steps.file_changes.outputs.files , '"javascript/')
 
     runs-on: ${{ matrix.os }}
     defaults:
@@ -36,6 +37,7 @@ jobs:
 
   rust:
     name: Build and test on Rust ${{ matrix.toolchain }} and ${{ matrix.os }}
+    if: contains(steps.file_changes.outputs.files , '"rust/')
 
     runs-on: ${{ matrix.os }}
     defaults:
