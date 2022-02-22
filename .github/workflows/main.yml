@@ -22,8 +22,8 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Install deps and build (with cache)
-        uses: bahmutov/npm-install@v1
+      - name: Install dependencies
+        run: yarn
 
       - name: Lint
         run: yarn lint
@@ -54,11 +54,6 @@ jobs:
         with:
           toolchain: ${{ matrix.toolchain }}
 
-      - uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --release --all-features
+      - run: cargo build --release --all-features
 
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
+      - run: cargo test
