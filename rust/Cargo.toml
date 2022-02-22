@@ -4,3 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+ed25519-dalek = "1"
+rand_core = "0.5"
+hex = "0.4"

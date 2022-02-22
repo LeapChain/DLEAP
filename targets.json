@@ -4,5 +4,11 @@
     "location": "rust",
     "build": "cargo build",
     "test": "cargo test"
+  },
+  "javascript": {
+    "location": "javascript",
+    "setup": "yarn",
+    "build": "yarn build",
+    "test": "yarn test"
   }
 }
