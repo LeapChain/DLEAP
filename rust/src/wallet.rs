@@ -44,26 +44,26 @@ impl Wallet {
 
     /// Gets the public key bytes from the [`Wallet`].
     #[inline]
-    pub fn public(&self) -> &[u8; 32] {
+    pub fn public_key(&self) -> &[u8; 32] {
         self.0.public.as_bytes()
     }
 
     /// Gets the public key bytes as a hexadecimal [`String`].
     #[inline]
-    pub fn public_hex(&self) -> String {
-        hex::encode(self.public())
+    pub fn public_hex_key(&self) -> String {
+        hex::encode(self.public_key())
     }
 
     /// Gets the secret key bytes from the [`Wallet`].
     #[inline]
-    pub fn secret(&self) -> &[u8; 32] {
+    pub fn secret_key(&self) -> &[u8; 32] {
         self.0.secret.as_bytes()
     }
 
     /// Gets the secret key bytes as a hexadecimal [`String`].
     #[inline]
-    pub fn secret_hex(&self) -> String {
-        hex::encode(self.secret())
+    pub fn secret_hex_key(&self) -> String {
+        hex::encode(self.secret_key())
     }
 
     /// Generates a [`Wallet`] with a random secret key along with its
@@ -111,7 +111,7 @@ mod tests {
 
         for (secret, public) in hex_pairs {
             let wallet = Wallet::from_hex_secret(secret).unwrap();
-            assert_eq!(wallet.public_hex(), public);
+            assert_eq!(wallet.public_hex_key(), public);
         }
     }
 
