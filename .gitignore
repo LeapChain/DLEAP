@@ -7,3 +7,5 @@ dist
 
 rust/Cargo.lock
 rust/target
+
+.history
