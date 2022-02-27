@@ -17,11 +17,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - uses: marceloprado/has-changed-path@v1
-        id: changed-front
-        with:
-          paths: javascript
-
       - name: Use Node ${{ matrix.node }}
         uses: actions/setup-node@v1
         with:
@@ -55,11 +50,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - uses: marceloprado/has-changed-path@v1
-        id: changed-front
-        with:
-          paths: rust
-
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: ${{ matrix.toolchain }}
@@ -67,3 +57,29 @@ jobs:
       - run: cargo build --release --all-features
 
       - run: cargo test
+
+  rust:
+    name: Build and test on Dart ${{ matrix.sdk }} and ${{ matrix.os }}
+
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ./dart
+    strategy:
+      matrix:
+        sdk: [stable, beta]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: ${{ matrix.sdk }}
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Run tests
+        run: dart test
