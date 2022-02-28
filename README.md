@@ -1,6 +1,8 @@
 # DTNB
 TheNewBoston Blockchain Library Suite to connect to the blockchain from many languages.
 
+Join us on discord: https://discord.gg/Hdv9aXhvJz 
+
 ## Project Layout
 
 The project is setup in a monorepo format.  That is, we have different subfolders which contain the libraries for the various languages and frameworks.  The number of libraries that we support may seem daunting for newcomers, but contributing is a smooth process as you only need to ensure that you run the tests for the certain library subfolder that you are working on.  Therefore, you don't need to install a ton of tooling for C++ and C# to just contribute to the JavaScript library.
