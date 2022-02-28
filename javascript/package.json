@@ -39,11 +39,11 @@
   "size-limit": [
     {
       "path": "dist/dtnb-js.cjs.production.min.js",
-      "limit": "10 KB"
+      "limit": "15 KB"
     },
     {
       "path": "dist/dtnb-js.esm.js",
-      "limit": "10 KB"
+      "limit": "15 KB"
     }
   ],
   "devDependencies": {
