@@ -1,5 +1,11 @@
 name: size
-on: [pull_request]
+on:
+  push:
+    paths:
+      - "javascript/**"
+  pull_request:
+    paths:
+      - "javascript/**"
 jobs:
   size:
     runs-on: ubuntu-latest
@@ -10,3 +16,4 @@ jobs:
       - uses: andresz1/size-limit-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          directory: javascript/
