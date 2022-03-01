@@ -113,11 +113,13 @@ if (targetNames.includes("javascript")) {
       model.doc !== undefined ? `/** ${model.doc} */` : ""
     }export type ${modelName} = ${typescriptTypeS(model)};`;
   }
-  fs.writeFile("./javascript/src/models.ts", output, "utf8").then(() => {
-    console.info(
-      "Successfully generated JavaScript models in './javascript/src/models.ts'."
-    );
-  });
+  fs.writeFile("./javascript/src/models/generated.ts", output, "utf8").then(
+    () => {
+      console.info(
+        "Successfully generated JavaScript models in './javascript/src/models/generated.ts'."
+      );
+    }
+  );
 }
 
 if (targetNames.includes("rust")) {
