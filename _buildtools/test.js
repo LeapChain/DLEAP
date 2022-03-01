@@ -1,5 +1,5 @@
 const { exec } = require("child_process");
-const targets = require("./targets.json");
+const targets = require("../targets.json");
 
 const execAsync = require("util").promisify(exec);
 

@@ -7,3 +7,4 @@ edition = "2021"
 ed25519-dalek = "1"
 rand_core = "0.5"
 hex = "0.4"
+serde = { version = "1", features = ["derive"] }
