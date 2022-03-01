@@ -1,0 +1,34 @@
+name: Dart
+on:
+  push:
+    paths:
+      - "dart/**"
+  pull_request:
+    paths:
+      - "dart/**"
+jobs:
+  dart:
+    name: Build and test on Dart ${{ matrix.sdk }} and ${{ matrix.os }}
+
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ./dart
+    strategy:
+      matrix:
+        sdk: [stable, beta]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: ${{ matrix.sdk }}
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Run tests
+        run: dart test

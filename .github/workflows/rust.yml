@@ -1,0 +1,32 @@
+name: Rust
+on:
+  push:
+    paths:
+      - "rust/**"
+  pull_request:
+    paths:
+      - "rust/**"
+jobs:
+  rust:
+    name: Build and test on Rust ${{ matrix.toolchain }} and ${{ matrix.os }}
+
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ./rust
+    strategy:
+      matrix:
+        toolchain: [nightly, stable]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.toolchain }}
+
+      - run: cargo build --release --all-features
+
+      - run: cargo test
