@@ -17,7 +17,7 @@ func (sig *Signature) Bytes() []byte {
 	return sig.bytes
 }
 
-// Gets the given signature encoded
+// Gets the given signature encoded as a hex string.
 func (sig *Signature) Hex() string {
 	return hex.EncodeToString(sig.bytes)
 }
