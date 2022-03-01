@@ -5,7 +5,7 @@ import {
   textToUint8Array,
   uint8arrayToHex,
   uint8ArrayToText,
-} from './utils/convert';
+} from './utils';
 
 /**
  * Signs a given message.
