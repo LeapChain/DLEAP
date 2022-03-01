@@ -1,0 +1,36 @@
+name: Golang
+on:
+  push:
+    paths:
+      - "golang/**"
+  pull_request:
+    paths:
+      - "golang/**"
+jobs:
+  golang:
+    name: Build and test on Go ${{ matrix.go-version }} and ${{ matrix.os }}
+
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ./golang
+    strategy:
+      matrix:
+        go-version: [1.14.x, 1.x.x]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: ${{ matrix.sdk }}
+
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Run tests
+        run: go test
