@@ -16,5 +16,10 @@
     "setup": "dart pub get",
     "build": "dart compile exe example/dtnb_example.dart",
     "test": "dart test"
+  },
+  "golang": {
+    "location": "golang",
+    "build": "go build",
+    "test": "go test"
   }
 }
