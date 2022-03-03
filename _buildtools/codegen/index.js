@@ -99,6 +99,77 @@ function goTypeS(schema) {
   }
 }
 
+/**
+ * @param {JSONSchemaValue} schema
+ * @param {string | undefined} name
+ * @returns {string}
+ */
+function dartTypeS(schema, name) {
+  switch (schema.type) {
+    case "ref":
+      return schema.name;
+    case "string":
+      return "String";
+    case "integer":
+      return "int";
+    case "float":
+      return "double";
+    case "boolean":
+      return "bool";
+    case "object":
+      const isRequired = (name) => schema.requiredProperties?.includes(name);
+
+      const generatedProps = Object.entries(schema.properties).map(
+        ([name, model]) => [
+          name,
+          {
+            code: dartTypeS(model),
+            data: model,
+          },
+        ]
+      );
+
+      return `{${generatedProps
+        .map(([prop, { code: nested, data: val }]) => {
+          return `${
+            val.doc !== undefined ? `/// ${val.doc}\n` : ""
+          }final ${nested}${isRequired(prop) ? "" : "?"} ${utils.snakeToCamel(
+            prop
+          )};`;
+        })
+        .join("")}const ${name}({${generatedProps
+        .map(
+          ([prop, _]) =>
+            `${isRequired(prop) ? "required " : ""}this.${utils.snakeToCamel(
+              prop
+            )}`
+        )
+        .join(
+          ","
+        )}});factory ${name}.fromJson(Map<String, dynamic> json) => ${name}(${generatedProps
+        .map(([prop, { code: nested, data: model }]) => {
+          const raw = `json['${prop}']`;
+          const required = isRequired(prop);
+          const casted =
+            model.type === "ref"
+              ? `${model.name}.fromJson(${raw})`
+              : `${raw} as ${nested}`;
+          return `${utils.snakeToCamel(prop)}:${
+            required ? casted : `${raw} == null ? null : ${casted}`
+          }`;
+        })
+        .join(",")});Map<String, dynamic> toJson() => {${generatedProps
+        .map(([prop, { data }]) => {
+          return `'${prop}':${utils.snakeToCamel(prop)}${
+            data.type === "ref" ? ".toJson()" : ""
+          }`;
+        })
+        .join(",")}};}`;
+    default:
+      throw new SyntaxError(`'${schema.type}' is not a valid type.`);
+  }
+}
+
 let targetNames = Object.keys(targets).filter((name) => name !== "$schema");
 
 if (process.argv[2] !== "%npm_config_targets%") {
@@ -111,7 +182,7 @@ if (targetNames.includes("javascript")) {
   for (const [modelName, model] of Object.entries(models)) {
     output += `${
       model.doc !== undefined ? `/** ${model.doc} */` : ""
-    }export type ${modelName} = ${typescriptTypeS(model)};`;
+    }export type ${modelName} = ${typescriptTypeS(model, modelName)};`;
   }
   fs.writeFile("./javascript/src/models/generated.ts", output, "utf8").then(
     () => {
@@ -120,6 +191,20 @@ if (targetNames.includes("javascript")) {
       );
     }
   );
+}
+
+if (targetNames.includes("dart")) {
+  let output = "";
+  for (const [modelName, model] of Object.entries(models)) {
+    output += `${
+      model.doc !== undefined ? `/// ${model.doc}\n` : ""
+    }class ${modelName} ${dartTypeS(model, modelName)}`;
+  }
+  fs.writeFile("./dart/lib/src/models.g.dart", output, "utf8").then(() => {
+    console.info(
+      "Successfully generated Dart models in './dart/lib/src/models.g.dart'."
+    );
+  });
 }
 
 if (targetNames.includes("rust")) {
