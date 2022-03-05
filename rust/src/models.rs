@@ -1,0 +1,6 @@
+use serde::{Serialize, Deserialize};
+/// The nested primary validator info within a bank node's config.
+#[derive(Debug, Serialize, Deserialize)]pub struct PrimaryValidatorInfo{pub account_number:String,pub ip_address:String,pub node_identifier:String,pub port:i32,pub protocol:String,pub version:String,pub default_transaction_fee:f32,pub root_account_file:String,pub root_account_file_hash:String,pub seed_block_identifier:String,pub daily_confirmation_rate:f32,pub trust:String}/// The config of a bank node.
+#[derive(Debug, Serialize, Deserialize)]pub struct BankConfig{pub primary_validator:PrimaryValidatorInfo,pub account_number:String,pub ip_address:String,pub node_identifier:String,pub port:i32,pub protocol:String,pub version:String,pub default_transaction_fee:f32,pub node_type:String}/// The config of a primary validator node.
+#[derive(Debug, Serialize, Deserialize)]pub struct PrimaryValidatorConfig{pub account_number:String,pub ip_address:String,/// The public key associated with the primary validator node on the network.
+pub node_identifier:String,pub port:i32,pub protocol:String,pub version:String,pub default_transaction_fee:f32,pub root_account_file:String,pub root_account_file_hash:String,pub seed_block_identifier:String,pub daily_confirmation_rate:f32,pub node_type:String}

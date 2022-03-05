@@ -1,3 +1,4 @@
+export { generateMnemonic, validateMnemonic } from 'bip39';
 export {
   createSignature,
   readSignedMessage,

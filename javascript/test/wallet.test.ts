@@ -2,12 +2,17 @@ import { Wallet } from '../src';
 import { Hex } from '../src/models';
 
 describe('Wallet', () => {
+  // mnemonic phrases and tes data can be generated here https://hd-keygen.vercel.app/
   const defaultWallet = {
-    publicKey:
-      '0fa2596d9fada397a6668463fed71c8c7260a411d108da6480d65121d443cc58',
-    secretKey:
-      '61647c0dd309646ea5b3868c8c237158483a10484b0485663e4f82a68a10535e',
+    mnemonic:
+      'favorite delay fun ankle almost connect coconut eyebrow offer timber volcano ethics',
+    publicKeyHex:
+      'cdfd65191dca919de82b79d7a4fbe493776eb9ecb62cc21063301731364a14a1',
+    secretKeyHex:
+      '6ad53f1dc05d8157c4ff0823f772840becc9306d7c3d19c0293e9cd36166a90f',
   };
+
+  const wallet = new Wallet(defaultWallet.secretKeyHex);
 
   const assertWalletBasics = (secretKey: Hex, publicKey: Hex) => {
     let wallet = new Wallet(secretKey);
@@ -18,9 +23,19 @@ describe('Wallet', () => {
     expect(wallet.secretKeyHex).toStrictEqual(secretKey);
   };
 
+  const peersWallet = new Wallet(
+    '705a3b36b44c2e95eebba870dc6fe5280c5c72783e2fe9449ebb73556faec57e'
+  );
+
+  const encryptedData = {
+    nonce: 'cf1b44b30aff3003367ed50b42cf5efaa27f64aa94e23a97',
+    encryptedMessage:
+      '#d7963c558bde02fcf3f55696a783834f9ec73c4de944e0385de26a78db',
+  };
+
   it('constructor()', () => {
-    const wallet = new Wallet();
-    expect(wallet.secretKeyHex).toHaveLength(64);
+    const randomWallet = new Wallet();
+    expect(randomWallet.secretKeyHex).toHaveLength(64);
   });
 
   it('constructor(secretKey)', () => {
@@ -46,16 +61,16 @@ describe('Wallet', () => {
 
   it('isValidPair(secretKey, publicKey)', () => {
     expect(
-      Wallet.isValidPair(defaultWallet.secretKey, defaultWallet.publicKey)
+      Wallet.isValidPair(defaultWallet.secretKeyHex, defaultWallet.publicKeyHex)
     ).toBeTruthy();
     expect(
-      Wallet.isValidPair(defaultWallet.publicKey, defaultWallet.publicKey)
+      Wallet.isValidPair(defaultWallet.publicKeyHex, defaultWallet.publicKeyHex)
     ).toBeFalsy();
     expect(
-      Wallet.isValidPair(defaultWallet.secretKey, defaultWallet.secretKey)
+      Wallet.isValidPair(defaultWallet.secretKeyHex, defaultWallet.secretKeyHex)
     ).toBeFalsy();
     expect(
-      Wallet.isValidPair(defaultWallet.publicKey, defaultWallet.secretKey)
+      Wallet.isValidPair(defaultWallet.publicKeyHex, defaultWallet.secretKeyHex)
     ).toBeFalsy();
   });
 
@@ -80,5 +95,51 @@ describe('Wallet', () => {
       const signedMessage = new Wallet(secretKey).sign(message);
       expect(signedMessage).toStrictEqual(signature);
     }
+  });
+
+  it('fromMnemonic(mnemonic)', () => {
+    const mainWallet = Wallet.fromMnemonic(defaultWallet.mnemonic);
+
+    expect(mainWallet.publicKeyHex).toStrictEqual(defaultWallet.publicKeyHex);
+    expect(mainWallet.secretKeyHex).toStrictEqual(defaultWallet.secretKeyHex);
+  });
+
+  it('encrypt(peersPublicKey, message, nonce?)', () => {
+    let message = 'HELLO, WORLD!';
+
+    const peersWallet = new Wallet(
+      '705a3b36b44c2e95eebba870dc6fe5280c5c72783e2fe9449ebb73556faec57e'
+    );
+
+    const { encryptedMessage, nonce } = wallet.encrypt(
+      peersWallet.publicKey,
+      message,
+      encryptedData.nonce
+    );
+
+    expect(nonce).toStrictEqual(encryptedData.nonce);
+    expect(encryptedMessage).toStrictEqual(encryptedData.encryptedMessage);
+  });
+
+  it('decrypt(peersPublicKey, message, nonce)', () => {
+    let message = 'HELLO, WORLD!';
+
+    //  with sender's secretKey and recipient's publicKey
+    let plaintext = wallet.decrypt(
+      peersWallet.publicKey,
+      encryptedData.encryptedMessage,
+      encryptedData.nonce
+    );
+
+    expect(plaintext).toStrictEqual(message);
+
+    //  with sender's publicKey and recipient's secretKey
+    plaintext = peersWallet.decrypt(
+      wallet.publicKey,
+      encryptedData.encryptedMessage,
+      encryptedData.nonce
+    );
+
+    expect(plaintext).toStrictEqual(message);
   });
 });

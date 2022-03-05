@@ -2,7 +2,8 @@
   "private": "true",
   "name": "dtnb-buildtools",
   "scripts": {
-    "build": "node build %npm_config_targets%",
-    "test": "node test %npm_config_targets%"
+    "build": "node _buildtools/build %npm_config_targets%",
+    "test": "node _buildtools/test %npm_config_targets%",
+    "codegen": "node _buildtools/codegen %npm_config_targets%"
   }
 }
