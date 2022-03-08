@@ -9,3 +9,4 @@ rust/Cargo.lock
 rust/target
 
 .history
+.idea/*
