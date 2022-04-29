@@ -53,9 +53,7 @@ class Wallet:
             priv_bytes = HexEncoder.decode(priv)
         except:
             raise
-        cls.public_key = pub_bytes
-        cls.private_key = priv_bytes
-        return cls()
+        return cls(pub_bytes, priv_bytes)
 
     @classmethod
     def from_private_bytes(cls, priv: Sequence[bytes]):
@@ -83,11 +81,11 @@ class Wallet:
 
     @property
     def private_key_hex(self):
-        return HexEncoder(self.private_key)
+        return HexEncoder.encode(self.private_key)
 
     @property
     def public_key_hex(self):
-        return HexEncoder(self.public_key)
+        return HexEncoder.encode(self.public_key)
 
     def sign(self, message: Sequence[bytes]) -> Signature:
         full_priv = self.private_key.append(self.public_key)
