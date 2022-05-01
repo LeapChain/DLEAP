@@ -1,2 +1,2 @@
 # DTNB
-TheNewBoston Blockchain Library Suite to connect to the blockchain from many languages.
+LeapChain Blockchain Library Suite to connect to the blockchain from many languages.

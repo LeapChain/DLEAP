@@ -1,2 +1,2 @@
 # DTNB-JS
-TheNewBoston Blockchain Library 
+LeapChain Blockchain Library 
