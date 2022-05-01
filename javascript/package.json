@@ -1,6 +1,6 @@
 {
-  "name": "dtnb-js",
-  "author": "mrbusysky",
+  "name": "@leapchain/dleap",
+  "author": "leapchain",
   "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",
@@ -61,5 +61,21 @@
     "ed25519-hd-key": "^1.2.0",
     "ed2curve": "^0.3.0",
     "tweetnacl": "^1.0.3"
-  }
+  },
+  "description": "LeapChain Blockchain Library",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeapChain/DLEAP.git"
+  },
+  "keywords": [
+    "leapchain",
+    "sdk"
+  ],
+  "bugs": {
+    "url": "https://github.com/LeapChain/DLEAP/issues"
+  },
+  "homepage": "https://github.com/LeapChain/DLEAP#readme"
 }
