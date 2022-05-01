@@ -1,7 +1,7 @@
 # DTNB
 LEAPCHAIN Blockchain Library Suite to connect to the blockchain from many languages.
 
-Join us on discord: https://discord.gg/Hdv9aXhvJz
+Join our discord: https://discord.gg/Hdv9aXhvJz
 
 ## Project Layout
 
