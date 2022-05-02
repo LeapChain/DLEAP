@@ -1,4 +1,4 @@
-# DTNB
+# DLEAP
 LEAPCHAIN Blockchain Library Suite to connect to the blockchain from many languages.
 
 Join our discord: https://discord.gg/Hdv9aXhvJz
