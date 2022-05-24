@@ -1,2 +1,2 @@
-# DTNB-JS
+# DLEAP-JS
 LeapChain Blockchain Library 
